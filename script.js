@@ -1,6 +1,54 @@
 const year = document.querySelector("#year");
 if (year) year.textContent = new Date().getFullYear();
 
+const contactForm = document.querySelector(".contact-form");
+
+if (contactForm) {
+  const fields = [...contactForm.querySelectorAll("input, textarea")];
+  const feedback = contactForm.querySelector(".form-feedback");
+  const errorMessages = {
+    name: "이름을 입력해 주세요.",
+    email: "이메일을 입력해 주세요.",
+    message: "문의 내용을 입력해 주세요.",
+  };
+
+  const validateField = (field) => {
+    const error = contactForm.querySelector(`#${field.id}-error`);
+    let message = "";
+
+    if (!field.value.trim()) {
+      message = errorMessages[field.name];
+    } else if (field.type === "email" && !field.validity.valid) {
+      message = "올바른 이메일 형식으로 입력해 주세요.";
+    }
+
+    error.textContent = message;
+    field.setAttribute("aria-invalid", String(Boolean(message)));
+    return !message;
+  };
+
+  contactForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+
+    const invalidFields = fields.filter((field) => !validateField(field));
+
+    if (invalidFields.length > 0) {
+      feedback.textContent = "입력 내용을 확인해 주세요.";
+      invalidFields[0].focus();
+      return;
+    }
+
+    feedback.textContent = "문의가 정상적으로 접수되었습니다.";
+  });
+
+  fields.forEach((field) => {
+    field.addEventListener("input", () => {
+      validateField(field);
+      feedback.textContent = "";
+    });
+  });
+}
+
 document.querySelectorAll('a[href="#"]').forEach((link) => {
   link.addEventListener("click", (event) => event.preventDefault());
 });

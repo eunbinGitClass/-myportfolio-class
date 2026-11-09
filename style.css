@@ -118,6 +118,24 @@ h1 em, .contact h2 em { color: var(--orange); font-family: Georgia, serif; font-
   font: inherit;
 }
 
+.contact-form input[aria-invalid="true"],
+.contact-form textarea[aria-invalid="true"] {
+  border-color: #c64332;
+}
+
+.contact-form .field-error {
+  color: #c64332;
+  font-size: 12px;
+  margin-top: -8px;
+}
+
+.contact-form .form-feedback {
+  color: #333;
+  font-size: 13px;
+  margin: 0;
+  min-height: 1.5em;
+}
+
 .contact-form button {
   padding: 12px;
   background: #222;
