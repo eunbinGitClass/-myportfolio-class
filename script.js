@@ -1,3 +1,27 @@
+const themeToggle = document.querySelector("#theme-toggle");
+const savedTheme = localStorage.getItem("portfolio-theme");
+const initialTheme = savedTheme === "dark" ? "dark" : "light";
+
+document.documentElement.dataset.theme = initialTheme;
+
+function updateThemeToggle(theme) {
+  const isDark = theme === "dark";
+  themeToggle.setAttribute("aria-label", isDark ? "라이트 모드로 전환" : "다크 모드로 전환");
+  themeToggle.setAttribute("aria-pressed", String(isDark));
+  themeToggle.querySelector(".theme-toggle-icon").textContent = isDark ? "☀️" : "🌙";
+  themeToggle.querySelector(".theme-toggle-label").textContent = isDark ? "Light Mode" : "Dark Mode";
+}
+
+if (themeToggle) {
+  updateThemeToggle(initialTheme);
+  themeToggle.addEventListener("click", () => {
+    const nextTheme = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+    document.documentElement.dataset.theme = nextTheme;
+    localStorage.setItem("portfolio-theme", nextTheme);
+    updateThemeToggle(nextTheme);
+  });
+}
+
 const year = document.querySelector("#year");
 if (year) year.textContent = new Date().getFullYear();
 
